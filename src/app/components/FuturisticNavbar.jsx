@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
+import Link from 'next/link';
 
-// ✅ Defined list of available addons
 const ADDONS = [
-  { id: "ir", name: "IR Module", price: 15 },
-  { id: "nrf", name: "NRF Module", price: 15 },
-  { id: "m5", name: "M5Stick", price: 15 },
-];
-
-export default function FuturisticColumnNavbar() {
-  const [selected, setSelected] = useState([]);
+  { id: "ir", name: "IR Module", price: 4, description: "Infrared sensor and transmitter" },
+  { id: "nrf", name: "NRF24 Module", price: 4, description: "Wi-Fi / Bluetooth radio module" },
+  { id: "cc1101", name: "CC1101 Module", price: 4, description: "433 MHz radio module" },
+  { id: "m5", name: "M5Stick", price: 30, description: "M5Stick C Plus 2" },
+  { id: "all", name: "All-in-One", price: 35, description: "M5Stick C Plus 2 with all modules" },
+]
+export default function FuturisticNavbar({ selectedAddons, setSelectedAddons }) {
   const [cursorPos, setCursorPos] = useState({ x: 100, y: 100 });
   const [isHovered, setIsHovered] = useState(false);
 
@@ -36,10 +36,10 @@ export default function FuturisticColumnNavbar() {
 
   // Toggle selection of addons
   const toggleAddon = (id) => {
-    setSelected((prev) =>
+    setSelectedAddons((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
-  };
+  };  
 
   return (
     <>
@@ -61,7 +61,7 @@ export default function FuturisticColumnNavbar() {
                        shadow-[0_10px_30px_rgba(0,0,0,0.3)]"
           >
             {ADDONS.map((addon) => {
-              const active = selected.includes(addon.id);
+              const active = selectedAddons.includes(addon.id);
               return (
                 <div
                   key={addon.id}
@@ -162,21 +162,24 @@ export default function FuturisticColumnNavbar() {
 
             {/* 🧭 Navigation links */}
             <div className="flex flex-col items-start gap-6 mt-2 w-full">
-              {["Home", "Build", "Info"].map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-4 w-full cursor-pointer group"
-                >
+            {[
+              { label: "UnyxRF", href: "#unyxrf" },
+              { label: "Addons", href: "#addons" },
+              { label: "Cart", href: "#cart" },
+            ].map((item) => (
+              <Link key={item.label} href={item.href} className="w-full">
+                <div className="flex items-center gap-4 w-full cursor-pointer group">
                   <div className="w-3 h-3 rounded-full bg-white/30 group-hover:bg-[#C77DFF] transition-all" />
-                  <span className="text-white text-sm font-semibold">{item}</span>
+                  <span className="text-white text-sm font-semibold">{item.label}</span>
                 </div>
-              ))}
+              </Link>
+            ))}
             </div>
 
             {/* 🧩 Addon toggles */}
             <div className="flex flex-col items-start gap-6 mt-10 w-full">
               {ADDONS.map((addon) => {
-                const active = selected.includes(addon.id);
+                const active = selectedAddons.includes(addon.id);
                 return (
                   <div
                     key={addon.id}
@@ -199,15 +202,37 @@ export default function FuturisticColumnNavbar() {
             {/* 🌐 Social media links */}
             <div className="flex flex-col items-start gap-5 text-white/40 text-xl mt-4 w-full">
               {[
-                { icon: "🌀", label: "Discord", color: "#7289DA" },
-                { icon: "🎵", label: "TikTok", color: "#FE2C55" },
+                {
+                  icon: "/discord.svg",
+                  label: "Discord",
+                  color: "#7289DA",
+                  href: "https://discord.gg/R8QJKCFYr9",
+                },
+                {
+                  icon: "/tiktok.svg",
+                  label: "TikTok",
+                  color: "#69C9D0",
+                  href: "https://www.tiktok.com/@unveroleone",
+                },
+                {
+                  icon: "/github.svg",
+                  label: "GitHub",
+                  color: "#00000",
+                  href: "https://github.com/unveroleone",
+                },
               ].map((social) => (
                 <a
                   key={social.label}
-                  href="#"
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-4 group w-full"
                 >
-                  <span className="group-hover:text-white">{social.icon}</span>
+                  <img
+                    src={social.icon}
+                    alt={social.label}
+                    className="w-6 h-6 group-hover:scale-110 transition-transform"
+                  />
                   <span
                     className="text-sm font-medium"
                     style={{
@@ -220,6 +245,7 @@ export default function FuturisticColumnNavbar() {
                 </a>
               ))}
             </div>
+
           </motion.div>
         )}
       </AnimatePresence>

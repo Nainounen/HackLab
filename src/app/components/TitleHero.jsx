@@ -19,7 +19,7 @@ export default function TitleHero() {
         transition={{ duration: 0.8, delay: 0.3 }}
         className="text-gray-300 text-lg max-w-2xl mx-auto mt-6"
       >
-        INFRAconnect is your compact, powerful sidekick for smart tech projects.
+        UnyxRF, one board to rule them all.
       </motion.p>
 
       <motion.p

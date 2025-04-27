@@ -4,7 +4,7 @@ import { Orbitron } from 'next/font/google'
 const orbitron = Orbitron({ subsets: ['latin'], weight: ['400', '700'] })
 
 export const metadata = {
-  title: 'INFRAconnect',
+  title: 'Hacklab',
   description: 'Built for hackers.',
 }
 

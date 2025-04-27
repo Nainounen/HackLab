@@ -24,8 +24,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-* {
-  cursor: none !important;
+html {
+  scroll-behavior: smooth;
 }
 
 /* Slow Spin (for icons or fancy loaders) */
@@ -52,3 +52,12 @@ body {
   background-position: 0% 50%;
 }
 
+@keyframes borderPulse {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-borderPulse {
+  animation: borderPulse 2s linear infinite;
+}

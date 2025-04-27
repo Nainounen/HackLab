@@ -1,15 +1,26 @@
-'use client'
-import { useEffect, useState } from 'react'
-import { motion, animate } from 'framer-motion'
+'use client';
+
+import { useEffect, useState } from 'react';
+import { motion, animate } from 'framer-motion';
+
+// Importiere oder definiere hier dein offizielles ADDONS-Array
+const ADDONS = [
+  { id: "ir", name: "IR Module", price: 4 },
+  { id: "nrf", name: "NRF24 Module", price: 4 },
+  { id: "cc1101", name: "CC1101 Module", price: 4 },
+  { id: "m5", name: "M5Stick", price: 30 },
+  { id: "all", name: "All-in-One", price: 35 },
+];
 
 export default function DynamicPricing({ basePrice, selectedAddons }) {
   // Calculate total price including selected addons
-  const totalPrice =
-    basePrice +
-    selectedAddons.reduce((sum, addon) => sum + parseFloat(addon.price), 0)
+  const totalPrice = basePrice + selectedAddons.reduce((sum, id) => {
+    const addon = ADDONS.find((a) => a.id === id);
+    return addon ? sum + addon.price : sum;
+  }, 0);
 
   // State to animate the current displayed price
-  const [currentPrice, setCurrentPrice] = useState(totalPrice)
+  const [currentPrice, setCurrentPrice] = useState(totalPrice);
 
   useEffect(() => {
     // Animate the price change smoothly when totalPrice updates
@@ -17,11 +28,11 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
       duration: 0.6,
       onUpdate: (v) => setCurrentPrice(v),
       ease: 'easeInOut',
-    })
+    });
 
     // Stop animation on component unmount or when effect re-runs
-    return () => controls.stop()
-  }, [totalPrice])
+    return () => controls.stop();
+  }, [totalPrice]);
 
   return (
     <section className="text-center py-20">
@@ -45,5 +56,5 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
         Add to Cart
       </motion.button>
     </section>
-  )
+  );
 }
