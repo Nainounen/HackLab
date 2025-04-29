@@ -1,35 +1,31 @@
 'use client'
-import { motion } from 'framer-motion'
 
-export default function TitleHero() {
+import { memo } from 'react';
+
+const TitleHero = () => {
   return (
     <section className="relative z-10 text-center py-36 px-6">
-      <motion.h1
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
+      <h1
         className="text-6xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-400"
+        style={{ willChange: 'transform' }}
       >
         HACKLAB TOOL
-      </motion.h1>
+      </h1>
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
+      <p
         className="text-gray-300 text-lg max-w-2xl mx-auto mt-6"
       >
         UnyxRF, one board to rule them all.
-      </motion.p>
+      </p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.6 }}
+      <p
         className="text-gray-500 mt-4"
       >
         At home, in the lab, or on the go.
-      </motion.p>
+      </p>
     </section>
   )
 }
+
+// Memoize the component since it doesn't have props and doesn't need to re-render
+export default memo(TitleHero);

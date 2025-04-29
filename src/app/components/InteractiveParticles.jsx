@@ -1,132 +1,154 @@
 'use client';
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react';
 
 export default function InteractiveParticles() {
-  const canvasRef = useRef(null)
-  const mouse = useRef({ x: 0, y: 0 })
-  const hueShift = useRef(0)
+  const canvasRef = useRef(null);
+  const mouse = useRef({ x: 0, y: 0 });
+  const animationRef = useRef(null);
+  const particlesRef = useRef([]);
+  const colorsRef = useRef({
+    particle: 'hsla(270, 100%, 70%, 0.7)',
+    line: 'hsla(270, 100%, 70%, 0.5)'
+  });
+
+  const createParticle = useCallback((width, height) => {
+    const startX = Math.random() * width;
+    const startY = Math.random() * height;
+    return {
+      x: startX,
+      y: startY,
+      startX,
+      startY,
+      vx: 0,
+      vy: 0,
+      radius: Math.random() * 2 + 1,
+    };
+  }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext('2d')
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    let width = (canvas.width = window.innerWidth)
-    let height = (canvas.height = window.innerHeight)
+    const ctx = canvas.getContext('2d', { alpha: true });
+    const dpr = window.devicePixelRatio || 1;
 
-    // Create initial particle array
-    let particles = Array.from({ length: 120 }, () => createParticle())
+    const updateCanvasSize = () => {
+      const displayWidth = window.innerWidth;
+      const displayHeight = window.innerHeight;
 
-    // Helper to create a single particle
-    function createParticle() {
-      const startX = Math.random() * width
-      const startY = Math.random() * height
-      return {
-        x: startX,
-        y: startY,
-        startX,
-        startY,
-        vx: 0,
-        vy: 0,
-        radius: Math.random() * 2 + 1,
-      }
-    }
+      canvas.width = displayWidth * dpr;
+      canvas.height = displayHeight * dpr;
 
-    // Main animation loop
+      ctx.scale(dpr, dpr);
+
+      canvas.style.width = `${displayWidth}px`;
+      canvas.style.height = `${displayHeight}px`;
+
+      return { width: displayWidth, height: displayHeight };
+    };
+
+    const { width, height } = updateCanvasSize();
+
+    particlesRef.current = Array.from({ length: 60 }, () => createParticle(width, height));
+
+    const connectionDistanceSq = 120 * 120;
+    const mouseInfluenceDistanceSq = 100 * 100;
+
     const update = () => {
-      ctx.clearRect(0, 0, width, height)
+      ctx.clearRect(0, 0, width, height);
 
-      // Base hue is violet (~270°)
-      const baseHue = 270
-      hueShift.current = (hueShift.current + 0.3) % 10 // Subtle hue shift
-      const currentHue = baseHue + hueShift.current
+      const particles = particlesRef.current;
+      const { particle: particleColor, line: lineColor } = colorsRef.current;
 
-      // Draw lines between nearby particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
+      for (let i = 0; i < particles.length; i += 2) {
+        for (let j = i + 2; j < particles.length; j += 2) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < 100) {
-            ctx.beginPath()
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.strokeStyle = `hsla(${currentHue}, 100%, 70%, ${1 - dist / 100})`
-            ctx.lineWidth = 0.4
-            ctx.stroke()
+          if (distSq < connectionDistanceSq) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = lineColor;
+            ctx.lineWidth = 0.4;
+            ctx.stroke();
           }
         }
       }
 
-      // Update and draw each particle
-      particles.forEach((p) => {
-        // Apply mouse repulsion force
-        const dxMouse = mouse.current.x - p.x
-        const dyMouse = mouse.current.y - p.y
-        const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse)
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
 
-        if (distMouse < 120) {
-          const force = (120 - distMouse) / 120
-          p.vx += (dxMouse / distMouse) * force * 0.2
-          p.vy += (dyMouse / distMouse) * force * 0.2
+        const dxMouse = mouse.current.x - p.x;
+        const dyMouse = mouse.current.y - p.y;
+        const distMouseSq = dxMouse * dxMouse + dyMouse * dyMouse;
+
+        if (distMouseSq < mouseInfluenceDistanceSq) {
+          const distMouse = Math.sqrt(distMouseSq);
+          p.vx -= (dxMouse / distMouse) * 0.1;
+          p.vy -= (dyMouse / distMouse) * 0.1;
         }
 
-        // Apply pull back to origin
-        const dxOrigin = p.startX - p.x
-        const dyOrigin = p.startY - p.y
-        p.vx += dxOrigin * 0.005
-        p.vy += dyOrigin * 0.005
+        p.vx += (p.startX - p.x) * 0.003;
+        p.vy += (p.startY - p.y) * 0.003;
 
-        // Apply velocity damping
-        p.vx *= 0.92
-        p.vy *= 0.92
+        p.vx *= 0.9;
+        p.vy *= 0.9;
 
-        // Update position
-        p.x += p.vx
-        p.y += p.vy
+        p.x += p.vx;
+        p.y += p.vy;
 
-        // Draw particle
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
-        ctx.fillStyle = `hsla(${currentHue}, 100%, 70%, 0.7)`
-        ctx.shadowColor = `hsl(${currentHue}, 100%, 70%)`
-        ctx.shadowBlur = 8
-        ctx.fill()
-      })
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = particleColor;
+        ctx.fill();
+      }
 
-      requestAnimationFrame(update)
-    }
+      animationRef.current = requestAnimationFrame(update);
+    };
 
-    update()
+    update();
 
-    // Update canvas size and particles on resize
+    let resizeTimeout;
     const handleResize = () => {
-      width = canvas.width = window.innerWidth
-      height = canvas.height = window.innerHeight
-      particles = Array.from({ length: 120 }, () => createParticle())
-    }
+      if (resizeTimeout) clearTimeout(resizeTimeout);
 
-    // Update mouse coordinates
+      resizeTimeout = setTimeout(() => {
+        const { width, height } = updateCanvasSize();
+        particlesRef.current = Array.from({ length: 60 }, () => createParticle(width, height));
+      }, 250);
+    };
+
     const handleMouseMove = (e) => {
-      mouse.current.x = e.clientX
-      mouse.current.y = e.clientY
-    }
+      if (mouse.current.lastUpdate && Date.now() - mouse.current.lastUpdate < 16) {
+        return;
+      }
 
-    window.addEventListener('resize', handleResize)
-    window.addEventListener('mousemove', handleMouseMove)
+      mouse.current = {
+        x: e.clientX,
+        y: e.clientY,
+        lastUpdate: Date.now()
+      };
+    };
 
-    // Cleanup on unmount
+    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+
     return () => {
-      window.removeEventListener('resize', handleResize)
-      window.removeEventListener('mousemove', handleMouseMove)
-    }
-  }, [])
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationRef.current);
+      clearTimeout(resizeTimeout);
+    };
+  }, [createParticle]);
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"
+      style={{ willChange: 'transform' }}
     />
-  )
+  );
 }

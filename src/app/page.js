@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
 import InteractiveParticles from './components/InteractiveParticles';
 import FuturisticNavbar from './components/FuturisticNavbar';
 import TitleHero from './components/TitleHero';
@@ -17,8 +16,6 @@ const addons = [
 ];
 
 export default function Page() {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
   const basePrice = 15;
   const [selectedAddons, setSelectedAddons] = useState([]);
@@ -34,23 +31,13 @@ export default function Page() {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
 
-    const handleMouseMove = (e) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-    };
-
     handleResize();
     window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [x, y]);
-
-  const rotateX = useTransform(y, [0, windowSize.height], [15, -15]);
-  const rotateY = useTransform(x, [0, windowSize.width], [-15, 15]);
+  }, []);
 
   return (
     <div id="title" className="relative min-h-screen text-white overflow-hidden">
@@ -71,12 +58,8 @@ export default function Page() {
         {addons.map((a, i) => {
           const selected = selectedAddons.includes(a.id);
           return (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
               className={`p-6 border rounded-3xl shadow-xl bg-white/5 backdrop-blur-md ${
                 selected ? 'ring-2 ring-pink-500' : ''
               } hover:scale-105 transition-all group`}
@@ -93,7 +76,7 @@ export default function Page() {
               >
                 {selected ? 'Remove' : `ADD + ${a.price}`}
               </button>
-            </motion.div>
+            </div>
           );
         })}
       </section>
