@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import InteractiveParticles from './components/InteractiveParticles';
 import FuturisticNavbar from './components/FuturisticNavbar';
 import TitleHero from './components/TitleHero';
@@ -20,19 +20,19 @@ export default function Page() {
   const basePrice = 15;
   const [selectedAddons, setSelectedAddons] = useState([]);
 
-  const toggleAddon = (id) => {
+  const toggleAddon = useCallback((id) => {
     setSelectedAddons((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
-  };
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };
 
-    handleResize();
     window.addEventListener('resize', handleResize);
+    handleResize(); // Initial Size
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -43,23 +43,19 @@ export default function Page() {
     <div id="title" className="relative min-h-screen text-white overflow-hidden">
       <InteractiveParticles />
       <FuturisticNavbar selectedAddons={selectedAddons} setSelectedAddons={setSelectedAddons} />
-
-      {/* Hero Title */}
       <TitleHero />
-
-      {/* PCB with Hotspots */}
       <HotspotOverlay id="unyxrf" />
-
-      {/* Dynamic Price Section */}
       <DynamicPricing basePrice={basePrice} selectedAddons={selectedAddons} />
 
-      {/* Add-ons */}
       <section id="addons" className="py-24 px-6 md:px-20 grid grid-cols-1 md:grid-cols-3 gap-10">
-        {addons.map((a, i) => {
+        {addons.map((a) => {
           const selected = selectedAddons.includes(a.id);
+
+          const handleToggle = () => toggleAddon(a.id); // Funktion nur einmal pro Addon!
+
           return (
             <div
-              key={i}
+              key={a.id}
               className={`p-6 border rounded-3xl shadow-xl bg-white/5 backdrop-blur-md ${
                 selected ? 'ring-2 ring-pink-500' : ''
               } hover:scale-105 transition-all group`}
@@ -67,7 +63,7 @@ export default function Page() {
               <h3 className="text-xl font-semibold mb-2 text-white">{a.title}</h3>
               <p className="text-gray-300 mb-4">{a.desc}</p>
               <button
-                onClick={() => toggleAddon(a.id)}
+                onClick={handleToggle}
                 className={`w-full mt-auto px-4 py-2 rounded-full font-medium shadow transition-all ${
                   selected
                     ? 'bg-pink-600 text-white'
