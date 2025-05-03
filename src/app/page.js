@@ -12,7 +12,7 @@ const addons = [
   { id: 'nrf', title: 'Add-on 2: NRF24 Module', price: 4, desc: 'Wi-Fi / Bluetooth radio module' },
   { id: 'cc1101', title: 'Add-on 3: CC1101 Module', price: 4, desc: '433 MHz radio module' },
   { id: 'm5', title: 'Add-on 4: M5Stick', price: 30, desc: 'M5Stick C Plus 2' },
-  { id: 'all', title: 'Add-on 5: All-in-One', price: 35, desc: 'M5Stick C Plus 2 with all modules' },
+  
 ];
 
 export default function Page() {

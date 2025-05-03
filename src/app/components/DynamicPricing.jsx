@@ -8,11 +8,32 @@ const ADDONS = [
   { id: "ir", name: "IR Module", price: 4 },
   { id: "nrf", name: "NRF24 Module", price: 4 },
   { id: "cc1101", name: "CC1101 Module", price: 4 },
-  { id: "m5", name: "M5Stick", price: 30 },
-  { id: "all", name: "All-in-One", price: 35 },
+  { id: "m5", name: "M5Stick", price: 30 }
 ];
 
-// Animation configuration for better performance
+// ✅ Dein korrekt sortiertes LINK_MAP hier einfügen:
+const LINK_MAP = {
+  "": "https://buy.stripe.com/bIYaH0fUHdMS6Zy7tG",
+  "cc1101": "https://buy.stripe.com/14k7uOaAneQWes0aFW",
+  "cc1101,ir": "https://buy.stripe.com/eVa3eyeQDeQWbfO3dv",
+  "cc1101,ir,m5stick": "https://buy.stripe.com/fZe4iCfUH8sy4Rq15v",
+  "cc1101,ir,nrf": "https://buy.stripe.com/fZe6qK23R8sy3Nm3dx",
+  "cc1101,ir,m5stick,nrf": "https://buy.stripe.com/7sI2aueQD9wC97G6pR", // ✅ hinzugefügt
+  "cc1101,m5stick": "https://buy.stripe.com/9AQeXg9wj6kqgA815u",
+  "cc1101,nrf": "https://buy.stripe.com/fZedTcdMz7ougA8aFY",
+  "cc1101,m5stick,nrf": "https://buy.stripe.com/7sIeXggYL10683C7tU",
+  "ir": "https://buy.stripe.com/4gwg1k37VfV0abK6pD",
+  "ir,m5stick": "https://buy.stripe.com/00geXgcIv8syes07tP",
+  "ir,nrf": "https://buy.stripe.com/4gwg1k6k7106es0eWb",
+  "ir,m5stick,nrf": "https://buy.stripe.com/5kAbL4bErbEKabK4hF",
+  "m5stick": "https://buy.stripe.com/4gw3eyfUH24a4Rq29u",
+  "nrf": "https://buy.stripe.com/7sI2augYL10683CcO2",
+  "m5stick,nrf": "https://buy.stripe.com/cN2cP8cIvfV0es0eWi"
+};
+
+
+
+// Animation config
 const priceAnimationConfig = {
   duration: 0.6,
   ease: 'easeInOut',
@@ -31,7 +52,6 @@ const priceTextAnimationConfig = {
 };
 
 export default function DynamicPricing({ basePrice, selectedAddons }) {
-  // Memoize price calculation to avoid recalculating unless dependencies change
   const totalPrice = useMemo(() => {
     return basePrice + selectedAddons.reduce((sum, id) => {
       const addon = ADDONS.find((a) => a.id === id);
@@ -39,29 +59,41 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
     }, 0);
   }, [basePrice, selectedAddons]);
 
-  // State to animate the current displayed price
   const [currentPrice, setCurrentPrice] = useState(totalPrice);
 
-  // Memoize the handleAddToCart function to prevent recreating on each render
+  // ✅ Mapping user-visible IDs to internal keys used in LINK_MAP
+  const redirectUrl = useMemo(() => {
+    const mappedKeys = {
+      ir: 'ir',
+      nrf: 'nrf',
+      cc1101: 'cc1101',
+      m5: 'm5stick'
+    };
+
+    const mappedAddons = selectedAddons
+      .map(id => mappedKeys[id])
+      .filter(Boolean)
+      .sort(); // sort alphabetically to match LINK_MAP
+
+    const key = mappedAddons.join(',');
+    return LINK_MAP[key] || 'https://yourdomain.com/error';
+  }, [selectedAddons]);
+
   const handleAddToCart = useCallback(() => {
-    // Implementation of add to cart functionality
-    console.log(`Adding to cart with price: ${totalPrice}`);
-  }, [totalPrice]);
+    window.location.href = redirectUrl;
+  }, [redirectUrl]);
 
   useEffect(() => {
-    // Animate the price change smoothly when totalPrice updates
     const controls = animate(currentPrice, totalPrice, {
       ...priceAnimationConfig,
       onUpdate: (v) => setCurrentPrice(v),
     });
 
-    // Stop animation on component unmount or when effect re-runs
     return () => controls.stop();
-  }, [totalPrice]); // Remove currentPrice from dependencies to prevent loop
+  }, [totalPrice]);
 
   return (
     <section className="text-center py-20">
-      {/* Animated price text with GPU acceleration */}
       <motion.p
         {...priceTextAnimationConfig}
         className="text-5xl font-semibold mb-4 bg-gradient-to-r from-pink-500 to-purple-600 text-transparent bg-clip-text"
@@ -70,14 +102,13 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
         {currentPrice.toFixed(2)}.–
       </motion.p>
 
-      {/* Animated "Add to Cart" button with optimized GPU-accelerated animations */}
       <motion.button
         {...buttonAnimationConfig}
         className="bg-gradient-to-r from-purple-600 to-pink-500 px-10 py-4 rounded-full font-bold text-white"
         onClick={handleAddToCart}
         style={{ willChange: 'transform' }}
       >
-        Add to Cart
+        Pre-Order
       </motion.button>
     </section>
   );

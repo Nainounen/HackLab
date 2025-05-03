@@ -8,14 +8,13 @@ const ADDONS = [
   { id: "nrf", name: "NRF24 Module", price: 4, description: "Wi-Fi / Bluetooth radio module" },
   { id: "cc1101", name: "CC1101 Module", price: 4, description: "433 MHz radio module" },
   { id: "m5", name: "M5Stick", price: 30, description: "M5Stick C Plus 2" },
-  { id: "all", name: "All-in-One", price: 35, description: "M5Stick C Plus 2 with all modules" },
+ 
 ];
 
 // Memoize navigation and social links to prevent recreating on each render
 const NAVIGATION_LINKS = [
   { label: "UnyxRF", href: "#unyxrf" },
   { label: "Addons", href: "#addons" },
-  { label: "Cart", href: "#cart" },
 ];
 
 const SOCIAL_LINKS = [
