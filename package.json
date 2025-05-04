@@ -17,6 +17,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-intersection-observer": "^9.16.0",
+    "shippo": "^2.15.0",
     "three": "^0.175.0"
   },
   "devDependencies": {

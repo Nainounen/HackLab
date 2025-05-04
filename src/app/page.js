@@ -6,6 +6,8 @@ import FuturisticNavbar from './components/FuturisticNavbar';
 import TitleHero from './components/TitleHero';
 import DynamicPricing from './components/DynamicPricing';
 import HotspotOverlay from './components/HotspotOverlay';
+import MobileFooter from './components/MobileFooter';
+
 
 const addons = [
   { id: 'ir', title: 'Add-on 1: IR Modules', price: 4, desc: 'Infrared sensor and Transmitter' },
@@ -42,7 +44,13 @@ export default function Page() {
   return (
     <div id="title" className="relative min-h-screen text-white overflow-hidden">
       <InteractiveParticles />
-      <FuturisticNavbar selectedAddons={selectedAddons} setSelectedAddons={setSelectedAddons} />
+      {windowSize.width >= 768 && (
+        <FuturisticNavbar selectedAddons={selectedAddons} setSelectedAddons={setSelectedAddons} />
+      )}
+
+      {windowSize.width < 768 && (
+        <MobileFooter />
+      )}
       <TitleHero />
       <HotspotOverlay id="unyxrf" />
       <DynamicPricing basePrice={basePrice} selectedAddons={selectedAddons} />

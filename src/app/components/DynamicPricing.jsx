@@ -73,10 +73,10 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
     const mappedAddons = selectedAddons
       .map(id => mappedKeys[id])
       .filter(Boolean)
-      .sort(); // sort alphabetically to match LINK_MAP
+      .sort();
 
     const key = mappedAddons.join(',');
-    return LINK_MAP[key] || 'https://yourdomain.com/error';
+    return LINK_MAP[key];
   }, [selectedAddons]);
 
   const handleAddToCart = useCallback(() => {
