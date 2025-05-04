@@ -13,23 +13,24 @@ const ADDONS = [
 
 // ✅ Dein korrekt sortiertes LINK_MAP hier einfügen:
 const LINK_MAP = {
-  "": "https://buy.stripe.com/bIYaH0fUHdMS6Zy7tG",
-  "cc1101": "https://buy.stripe.com/14k7uOaAneQWes0aFW",
-  "cc1101,ir": "https://buy.stripe.com/eVa3eyeQDeQWbfO3dv",
-  "cc1101,ir,m5stick": "https://buy.stripe.com/fZe4iCfUH8sy4Rq15v",
-  "cc1101,ir,nrf": "https://buy.stripe.com/fZe6qK23R8sy3Nm3dx",
-  "cc1101,ir,m5stick,nrf": "https://buy.stripe.com/7sI2aueQD9wC97G6pR", // ✅ hinzugefügt
-  "cc1101,m5stick": "https://buy.stripe.com/9AQeXg9wj6kqgA815u",
-  "cc1101,nrf": "https://buy.stripe.com/fZedTcdMz7ougA8aFY",
-  "cc1101,m5stick,nrf": "https://buy.stripe.com/7sIeXggYL10683C7tU",
-  "ir": "https://buy.stripe.com/4gwg1k37VfV0abK6pD",
-  "ir,m5stick": "https://buy.stripe.com/00geXgcIv8syes07tP",
-  "ir,nrf": "https://buy.stripe.com/4gwg1k6k7106es0eWb",
-  "ir,m5stick,nrf": "https://buy.stripe.com/5kAbL4bErbEKabK4hF",
-  "m5stick": "https://buy.stripe.com/4gw3eyfUH24a4Rq29u",
-  "nrf": "https://buy.stripe.com/7sI2augYL10683CcO2",
-  "m5stick,nrf": "https://buy.stripe.com/cN2cP8cIvfV0es0eWi"
+  "": "https://buy.stripe.com/dR6aH0aAn8sycjSaG8", // nur Hacklab
+  "ir": "https://buy.stripe.com/6oEeXgbErbEKabKdSl",
+  "nrf": "https://buy.stripe.com/dR69CW6k79wC97G8y2",
+  "ir,nrf": "https://buy.stripe.com/5kAeXgfUH106dnW01x",
+  "cc1101": "https://buy.stripe.com/28o8ySaAn6kq97GaGc",
+  "cc1101,ir": "https://buy.stripe.com/eVa8ySbEraAG4Rq8y5",
+  "cc1101,nrf": "https://buy.stripe.com/cN2aH023R4ci1Fe29I",
+  "cc1101,ir,nrf": "https://buy.stripe.com/5kA2au5g3dMS1Fe6pZ",
+  "m5stick": "https://buy.stripe.com/9AQeXgfUHfV02Ji7u4",
+  "ir,m5stick": "https://buy.stripe.com/6oE4iCeQDbEK97G5lX",
+  "nrf,m5stick": "https://buy.stripe.com/28ocP8aAnfV02Ji29M",
+  "ir,nrf,m5stick": "https://buy.stripe.com/5kA4iCeQD5gm1Fe15J",
+  "cc1101,m5stick": "https://buy.stripe.com/9AQdTc5g31066Zy8yc",
+  "cc1101,ir,m5stick": "https://buy.stripe.com/7sI9CW6k76kq83C6q5",
+  "cc1101,nrf,m5stick": "https://buy.stripe.com/bIY16q7ob8sygA8bKq",
+  "cc1101,ir,nrf,m5stick": "https://buy.stripe.com/4gw2au7ob6kq83C5m3"
 };
+
 
 
 
