@@ -60,15 +60,16 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
   const [currentPrice, setCurrentPrice] = useState(totalPrice);
 
   const redirectUrl = useMemo(() => {
-    const sorted = selectedAddons.slice().sort((a, b) => a.localeCompare(b));
-    const key = sorted.join(',');
+    const sortedAddons = [...selectedAddons].sort((a, b) => a.localeCompare(b));
+    const key = sortedAddons.join(',');
   
     if (!(key in LINK_MAP)) {
-      console.warn(`⚠️ Kein Stripe-Link für Kombination: "${key}".`);
+      console.warn(`⚠️ Kein Stripe-Link für Kombination: "${key}"`);
     }
   
     return LINK_MAP[key] ?? LINK_MAP[""];
   }, [selectedAddons]);
+  
   
 
   const handleAddToCart = useCallback(() => {
