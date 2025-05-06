@@ -54,7 +54,14 @@ export default function Page() {
       <TitleHero />
       <HotspotOverlay id="unyxrf" />
       <DynamicPricing basePrice={basePrice} selectedAddons={selectedAddons} />
-
+        {/* Free shipping promo message */}
+      <div className="flex justify-center items-center py-4">
+        <div className="bg-gradient-to-r from-purple-700/30 to-pink-600/30 backdrop-blur-sm px-8 py-4 rounded-xl border border-white/10">
+          <p className="text-lg font-medium text-white flex items-center gap-2">
+            <span className="text-xl">🚚</span> Free shipping with any add-on of your choice!
+          </p>
+        </div>
+      </div>
       <section id="addons" className="py-24 px-6 md:px-20 grid grid-cols-1 md:grid-cols-3 gap-10">
         {addons.map((a) => {
           const selected = selectedAddons.includes(a.id);
