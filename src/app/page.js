@@ -19,7 +19,7 @@ const addons = [
 
 export default function Page() {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-  const basePrice = 15;
+  const basePrice = 19.99;
   const [selectedAddons, setSelectedAddons] = useState([]);
 
   const toggleAddon = useCallback((id) => {
