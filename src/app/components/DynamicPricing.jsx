@@ -11,29 +11,25 @@ const ADDONS = [
   { id: "m5", name: "M5Stick", price: 30 }
 ];
 
-// ✅ Dein korrekt sortiertes LINK_MAP hier einfügen:
+// ✅ Korrekt alphabetisch sortiertes LINK_MAP
 const LINK_MAP = {
   "": "https://buy.stripe.com/28o02mcIv24a4Rq3dW", // nur Hacklab
-  "ir": "https://buy.stripe.com/5kA9CWfUH24abfO7ud",
-  "nrf": "https://buy.stripe.com/dR66qK23R4ci5Vu3dY",
-  "ir,nrf": "https://buy.stripe.com/9AQdTceQDcIOes0bKv",
   "cc1101": "https://buy.stripe.com/dR6aH0eQD8sy97GdSE",
   "cc1101,ir": "https://buy.stripe.com/28odTc37VeQWabK4i5",
-  "cc1101,nrf": "https://buy.stripe.com/5kAbL40ZN9wCgA89Cq",
-  "cc1101,ir,nrf": "https://buy.stripe.com/8wMcP89wj6kq4Rq9Cr",
-  "m5stick": "https://buy.stripe.com/7sIaH0cIvgZ4cjS2a0",
-  "ir,m5stick": "https://buy.stripe.com/28oaH09wj7ou6ZydSJ",
-  "nrf,m5stick": "https://buy.stripe.com/eVabL4gYLgZ43NmbKC",
-  "ir,nrf,m5stick": "https://buy.stripe.com/fZe7uOgYL8sy2Ji2a3",
-  "cc1101,m5stick": "https://buy.stripe.com/28obL4aAn4ci83Cg0U",
   "cc1101,ir,m5stick": "https://buy.stripe.com/14k5mG7obgZ4es0cOJ",
+  "cc1101,ir,nrf": "https://buy.stripe.com/8wMcP89wj6kq4Rq9Cr",
+  "cc1101,ir,nrf,m5stick": "https://buy.stripe.com/4gw5mG23R38e97GbKH",
+  "cc1101,m5stick": "https://buy.stripe.com/28obL4aAn4ci83Cg0U",
+  "cc1101,nrf": "https://buy.stripe.com/5kAbL40ZN9wCgA89Cq",
   "cc1101,nrf,m5stick": "https://buy.stripe.com/6oE4iCgYL5gm2Ji2a6",
-  "cc1101,ir,nrf,m5stick": "https://buy.stripe.com/4gw5mG23R38e97GbKH"
+  "ir": "https://buy.stripe.com/5kA9CWfUH24abfO7ud",
+  "ir,m5stick": "https://buy.stripe.com/28oaH09wj7ou6ZydSJ",
+  "ir,nrf": "https://buy.stripe.com/9AQdTceQDcIOes0bKv",
+  "ir,nrf,m5stick": "https://buy.stripe.com/fZe7uOgYL8sy2Ji2a3",
+  "m5stick": "https://buy.stripe.com/7sIaH0cIvgZ4cjS2a0",
+  "nrf": "https://buy.stripe.com/dR66qK23R4ci5Vu3dY",
+  "nrf,m5stick": "https://buy.stripe.com/eVabL4gYLgZ43NmbKC"
 };
-
-
-
-
 
 // Animation config
 const priceAnimationConfig = {
@@ -75,10 +71,10 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
     const mappedAddons = selectedAddons
       .map(id => mappedKeys[id])
       .filter(Boolean)
-      .sort();
+      .sort(); // alphabetisch sortieren
 
     const key = mappedAddons.join(',');
-    return LINK_MAP[key];
+    return LINK_MAP[key] ?? LINK_MAP[""];
   }, [selectedAddons]);
 
   const handleAddToCart = useCallback(() => {
