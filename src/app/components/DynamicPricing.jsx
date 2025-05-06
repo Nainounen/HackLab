@@ -60,19 +60,20 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
   const [currentPrice, setCurrentPrice] = useState(totalPrice);
 
   const redirectUrl = useMemo(() => {
-    // Mappe m5 → m5stick für LINK_MAP
+    // Mappe m5 → m5stick und sortiere alphabetisch
     const mappedAddons = selectedAddons
       .map(id => id === 'm5' ? 'm5stick' : id)
-      .sort();
-
+      .sort((a, b) => a.localeCompare(b));
+  
     const key = mappedAddons.join(',');
-
+  
     if (!(key in LINK_MAP)) {
       console.warn(`⚠️ Kein Stripe-Link für Kombination: "${key}".`);
     }
-
+  
     return LINK_MAP[key] ?? LINK_MAP[""];
   }, [selectedAddons]);
+  
 
   const handleAddToCart = useCallback(() => {
     window.location.href = redirectUrl;
