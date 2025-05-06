@@ -13,23 +13,24 @@ const ADDONS = [
 
 // ✅ Dein korrekt sortiertes LINK_MAP hier einfügen:
 const LINK_MAP = {
-  "": "https://buy.stripe.com/dR6aH0aAn8sycjSaG8", // nur Hacklab
-  "ir": "https://buy.stripe.com/6oEeXgbErbEKabKdSl",
-  "nrf": "https://buy.stripe.com/dR69CW6k79wC97G8y2",
-  "ir,nrf": "https://buy.stripe.com/5kAeXgfUH106dnW01x",
-  "cc1101": "https://buy.stripe.com/28o8ySaAn6kq97GaGc",
-  "cc1101,ir": "https://buy.stripe.com/eVa8ySbEraAG4Rq8y5",
-  "cc1101,nrf": "https://buy.stripe.com/cN2aH023R4ci1Fe29I",
-  "cc1101,ir,nrf": "https://buy.stripe.com/5kA2au5g3dMS1Fe6pZ",
-  "m5stick": "https://buy.stripe.com/9AQeXgfUHfV02Ji7u4",
-  "ir,m5stick": "https://buy.stripe.com/6oE4iCeQDbEK97G5lX",
-  "nrf,m5stick": "https://buy.stripe.com/28ocP8aAnfV02Ji29M",
-  "ir,nrf,m5stick": "https://buy.stripe.com/5kA4iCeQD5gm1Fe15J",
-  "cc1101,m5stick": "https://buy.stripe.com/9AQdTc5g31066Zy8yc",
-  "cc1101,ir,m5stick": "https://buy.stripe.com/7sI9CW6k76kq83C6q5",
-  "cc1101,nrf,m5stick": "https://buy.stripe.com/bIY16q7ob8sygA8bKq",
-  "cc1101,ir,nrf,m5stick": "https://buy.stripe.com/4gw2au7ob6kq83C5m3"
+  "hacklab": "https://buy.stripe.com/28o02mcIv24a4Rq3dW",
+  "hacklab,adon1": "https://buy.stripe.com/5kA9CWfUH24abfO7ud",
+  "hacklab,adon2": "https://buy.stripe.com/dR66qK23R4ci5Vu3dY",
+  "hacklab,adon1,adon2": "https://buy.stripe.com/9AQdTceQDcIOes0bKv",
+  "hacklab,adon3": "https://buy.stripe.com/dR6aH0eQD8sy97GdSE",
+  "hacklab,adon1,adon3": "https://buy.stripe.com/28odTc37VeQWabK4i5",
+  "hacklab,adon2,adon3": "https://buy.stripe.com/5kAbL40ZN9wCgA89Cq",
+  "hacklab,adon1,adon2,adon3": "https://buy.stripe.com/8wMcP89wj6kq4Rq9Cr",
+  "hacklab,m5stick": "https://buy.stripe.com/7sIaH0cIvgZ4cjS2a0",
+  "hacklab,adon1,m5stick": "https://buy.stripe.com/28oaH09wj7ou6ZydSJ",
+  "hacklab,adon2,m5stick": "https://buy.stripe.com/eVabL4gYLgZ43NmbKC",
+  "hacklab,adon1,adon2,m5stick": "https://buy.stripe.com/fZe7uOgYL8sy2Ji2a3",
+  "hacklab,adon3,m5stick": "https://buy.stripe.com/28obL4aAn4ci83Cg0U",
+  "hacklab,adon1,adon3,m5stick": "https://buy.stripe.com/14k5mG7obgZ4es0cOJ",
+  "hacklab,adon2,adon3,m5stick": "https://buy.stripe.com/6oE4iCgYL5gm2Ji2a6",
+  "hacklab,adon1,adon2,adon3,m5stick": "https://buy.stripe.com/4gw5mG23R38e97GbKH"
 };
+
 
 
 
