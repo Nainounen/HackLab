@@ -7,8 +7,8 @@ import TitleHero from './components/TitleHero';
 import DynamicPricing from './components/DynamicPricing';
 import HotspotOverlay from './components/HotspotOverlay';
 import MobileFooter from './components/MobileFooter';
-import MobileFooter from './components/LegalTerms';
-import MobileFooter from './components/ImpressumPopUp';
+import LegalTerms from './components/LegalTerms';
+import ImpressumPopUp from './components/ImpressumPopUp';
 
 
 
