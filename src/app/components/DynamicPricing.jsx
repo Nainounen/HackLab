@@ -62,13 +62,14 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
   const redirectUrl = useMemo(() => {
     const sorted = selectedAddons.slice().sort((a, b) => a.localeCompare(b));
     const key = sorted.join(',');
-
+  
     if (!(key in LINK_MAP)) {
       console.warn(`⚠️ Kein Stripe-Link für Kombination: "${key}".`);
     }
-
+  
     return LINK_MAP[key] ?? LINK_MAP[""];
   }, [selectedAddons]);
+  
 
   const handleAddToCart = useCallback(() => {
     window.location.href = redirectUrl;
