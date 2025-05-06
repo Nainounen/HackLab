@@ -88,7 +88,7 @@ export default function Page() {
                     : 'bg-gradient-to-r from-purple-700 to-pink-600 text-white hover:brightness-110'
                 }`}
               >
-                {selected ? 'Remove' : `ADD + ${a.price}`}
+                {selected ? 'Remove' : `ADD + ${a.price}.-`}
               </button>
             </div>
           );
