@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { motion, animate } from 'framer-motion';
 
-// Einheitliche Add-on-IDs
+// Einheitliche Add-ons mit ID "m5"
 const ADDONS = [
   { id: "ir", name: "IR Module", price: 4 },
   { id: "nrf", name: "NRF24 Module", price: 4 },
@@ -11,7 +11,7 @@ const ADDONS = [
   { id: "m5", name: "M5Stick", price: 30 }
 ];
 
-// Vollständiges LINK_MAP mit "m5" statt "m5stick"
+// Alle 16 möglichen Kombinationen (alphabetisch sortiert nach ID)
 const LINK_MAP = {
   "": "https://buy.stripe.com/28o02mcIv24a4Rq3dW",
   "cc1101": "https://buy.stripe.com/dR6aH0eQD8sy97GdSE",
@@ -62,15 +62,13 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
   const redirectUrl = useMemo(() => {
     const sortedAddons = [...selectedAddons].sort((a, b) => a.localeCompare(b));
     const key = sortedAddons.join(',');
-  
+
     if (!(key in LINK_MAP)) {
       console.warn(`⚠️ Kein Stripe-Link für Kombination: "${key}"`);
     }
-  
+
     return LINK_MAP[key] ?? LINK_MAP[""];
   }, [selectedAddons]);
-  
-  
 
   const handleAddToCart = useCallback(() => {
     window.location.href = redirectUrl;
