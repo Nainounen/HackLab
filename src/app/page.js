@@ -91,6 +91,11 @@ export default function Page() {
           );
         })}
       </section>
+      <div className="flex flex-wrap justify-center items-center gap-4 py-6">
+        <LegalTerms />
+        <ImpressumPopUp />
     </div>
+    </div>
+    
   );
 }
