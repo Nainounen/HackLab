@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { motion, animate } from 'framer-motion';
 
-// Add-on-Konfiguration
+// Add-ons mit Preisen
 const ADDONS = [
   { id: "ir", name: "IR Module", price: 4 },
   { id: "nrf", name: "NRF24 Module", price: 4 },
@@ -11,9 +11,9 @@ const ADDONS = [
   { id: "m5", name: "M5Stick", price: 30 }
 ];
 
-// Alle 16 möglichen Kombinationen (alphabetisch sortierte Keys)
+// Alle 16 gültigen Kombinationen (alphabetisch sortierte Keys)
 const LINK_MAP = {
-  "": "https://buy.stripe.com/28o02mcIv24a4Rq3dW", // nur Hacklab
+  "": "https://buy.stripe.com/28o02mcIv24a4Rq3dW",
   "cc1101": "https://buy.stripe.com/dR6aH0eQD8sy97GdSE",
   "cc1101,ir": "https://buy.stripe.com/28odTc37VeQWabK4i5",
   "cc1101,ir,m5stick": "https://buy.stripe.com/14k5mG7obgZ4es0cOJ",
@@ -60,22 +60,15 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
   const [currentPrice, setCurrentPrice] = useState(totalPrice);
 
   const redirectUrl = useMemo(() => {
-    const mappedKeys = {
-      ir: 'ir',
-      nrf: 'nrf',
-      cc1101: 'cc1101',
-      m5: 'm5stick'
-    };
-
+    // Mappe m5 → m5stick für LINK_MAP
     const mappedAddons = selectedAddons
-      .map(id => mappedKeys[id])
-      .filter(Boolean)
-      .sort(); // alphabetisch sortieren
+      .map(id => id === 'm5' ? 'm5stick' : id)
+      .sort();
 
     const key = mappedAddons.join(',');
 
     if (!(key in LINK_MAP)) {
-      console.warn(`⚠️ Kein Stripe-Link für Kombination: "${key}". Fallback auf Basisprodukt.`);
+      console.warn(`⚠️ Kein Stripe-Link für Kombination: "${key}".`);
     }
 
     return LINK_MAP[key] ?? LINK_MAP[""];
