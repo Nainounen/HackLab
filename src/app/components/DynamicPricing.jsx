@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { motion, animate } from 'framer-motion';
 
-// Add-ons mit Preisen
+// Einheitliche Add-on-IDs
 const ADDONS = [
   { id: "ir", name: "IR Module", price: 4 },
   { id: "nrf", name: "NRF24 Module", price: 4 },
@@ -11,24 +11,24 @@ const ADDONS = [
   { id: "m5", name: "M5Stick", price: 30 }
 ];
 
-// Alle 16 gültigen Kombinationen (alphabetisch sortierte Keys)
+// Vollständiges LINK_MAP mit "m5" statt "m5stick"
 const LINK_MAP = {
   "": "https://buy.stripe.com/28o02mcIv24a4Rq3dW",
   "cc1101": "https://buy.stripe.com/dR6aH0eQD8sy97GdSE",
   "cc1101,ir": "https://buy.stripe.com/28odTc37VeQWabK4i5",
-  "cc1101,ir,m5stick": "https://buy.stripe.com/14k5mG7obgZ4es0cOJ",
+  "cc1101,ir,m5": "https://buy.stripe.com/14k5mG7obgZ4es0cOJ",
   "cc1101,ir,nrf": "https://buy.stripe.com/8wMcP89wj6kq4Rq9Cr",
-  "cc1101,ir,nrf,m5stick": "https://buy.stripe.com/4gw5mG23R38e97GbKH",
-  "cc1101,m5stick": "https://buy.stripe.com/28obL4aAn4ci83Cg0U",
+  "cc1101,ir,nrf,m5": "https://buy.stripe.com/4gw5mG23R38e97GbKH",
+  "cc1101,m5": "https://buy.stripe.com/28obL4aAn4ci83Cg0U",
   "cc1101,nrf": "https://buy.stripe.com/5kAbL40ZN9wCgA89Cq",
-  "cc1101,nrf,m5stick": "https://buy.stripe.com/6oE4iCgYL5gm2Ji2a6",
+  "cc1101,nrf,m5": "https://buy.stripe.com/6oE4iCgYL5gm2Ji2a6",
   "ir": "https://buy.stripe.com/5kA9CWfUH24abfO7ud",
-  "ir,m5stick": "https://buy.stripe.com/28oaH09wj7ou6ZydSJ",
+  "ir,m5": "https://buy.stripe.com/28oaH09wj7ou6ZydSJ",
   "ir,nrf": "https://buy.stripe.com/9AQdTceQDcIOes0bKv",
-  "ir,nrf,m5stick": "https://buy.stripe.com/fZe7uOgYL8sy2Ji2a3",
-  "m5stick": "https://buy.stripe.com/7sIaH0cIvgZ4cjS2a0",
+  "ir,nrf,m5": "https://buy.stripe.com/fZe7uOgYL8sy2Ji2a3",
+  "m5": "https://buy.stripe.com/7sIaH0cIvgZ4cjS2a0",
   "nrf": "https://buy.stripe.com/dR66qK23R4ci5Vu3dY",
-  "nrf,m5stick": "https://buy.stripe.com/eVabL4gYLgZ43NmbKC"
+  "nrf,m5": "https://buy.stripe.com/eVabL4gYLgZ43NmbKC"
 };
 
 // Animationseinstellungen
@@ -60,20 +60,15 @@ export default function DynamicPricing({ basePrice, selectedAddons }) {
   const [currentPrice, setCurrentPrice] = useState(totalPrice);
 
   const redirectUrl = useMemo(() => {
-    // Mappe m5 → m5stick und sortiere alphabetisch
-    const mappedAddons = selectedAddons
-      .map(id => id === 'm5' ? 'm5stick' : id)
-      .sort((a, b) => a.localeCompare(b));
-  
-    const key = mappedAddons.join(',');
-  
+    const sorted = selectedAddons.slice().sort((a, b) => a.localeCompare(b));
+    const key = sorted.join(',');
+
     if (!(key in LINK_MAP)) {
       console.warn(`⚠️ Kein Stripe-Link für Kombination: "${key}".`);
     }
-  
+
     return LINK_MAP[key] ?? LINK_MAP[""];
   }, [selectedAddons]);
-  
 
   const handleAddToCart = useCallback(() => {
     window.location.href = redirectUrl;
